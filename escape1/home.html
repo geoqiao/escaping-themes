@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% from '_entries.html' import entries %}
+
+{% block content %}
+{% if site.title or site.description or site.profile.avatar or site.profile.bio or site.profile.links or site.navigation %}
+<div class="home-intro">
+    {% if site.profile.avatar %}
+    <img class="avatar-img" src="{{ site.profile.avatar }}" alt="{{ site.author }}" />
+    {% endif %}
+    {% if site.title %}
+    <h1 class="home-title">{{ site.title }}</h1>
+    {% endif %}
+    {% if site.description %}
+    <p class="intro-line">{{ site.description }}</p>
+    {% endif %}
+    {% if site.profile.bio %}
+    <p class="intro-line">{{ site.profile.bio }}</p>
+    {% endif %}
+    {% if site.navigation %}
+    <p class="intro-line nav-actions">
+        {% for link in site.navigation %}
+        <a href="{{ link.url }}">{{ link.name }}</a>{% if not loop.last %} · {% endif %}
+        {% endfor %}
+    </p>
+    {% endif %}
+    {% if site.profile.links %}
+    <p class="intro-line source-link">
+        {% for link in site.profile.links %}
+        <a href="{{ link.url }}">{{ link.name }}</a>{% if not loop.last %} · {% endif %}
+        {% endfor %}
+    </p>
+    {% endif %}
+</div>
+{% endif %}
+
+<section class="recent-posts">
+    <h2>{{ t.recent_posts }}</h2>
+    {# Escape1 always showed the five newest posts, whatever the Blog page size. #}
+    {% set recent = site.posts[:5] %}
+    {% if recent %}
+    {{ entries(recent, 'h3') }}
+    {% else %}
+    <p class="empty-state">{{ t.no_posts }}</p>
+    {% endif %}
+</section>
+{% endblock %}

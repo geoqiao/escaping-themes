@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% set page_title = t.tags %}
+
+{% block content %}
+<h1>{{ t.tags }}</h1>
+
+<div class="tag-list">
+    {% if page.items %}
+    {% for tag in page.items %}
+    <span class="tag-item">
+        <a href="{{ tag.canonical_path }}" class="tag">{{ tag.name }}</a>
+        <span class="tag-count">({{ tag.count }})</span>
+    </span>
+    {% endfor %}
+    {% else %}
+    <p class="empty-state">{{ t.no_tags }}</p>
+    {% endif %}
+</div>
+{% endblock %}

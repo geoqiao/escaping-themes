@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% set page_title = t.projects %}
+
+{% block content %}
+<section class="postsList">
+    <div class="listHeader"><h1 lang="{{ t.language }}">{{ t.projects }}</h1></div>
+    {% for project in page.items %}
+    <article class="postListItem">
+        <a class="postListLink" href="{{ project.page.canonical_path if project.page else project.url }}">
+            <div class="postHeader">
+                <span class="postTitle">{{ project.title }}</span>
+                {% if project.language %}<span class="postDate">{{ project.language }}</span>{% endif %}
+            </div>
+        </a>
+        {% if project.summary %}<p>{{ project.summary }}</p>{% endif %}
+        {% if project.stars is not none or project.forks is not none or project.topics %}
+        <div class="postTags">
+            {% if project.stars is not none %}<span class="tag">★ {{ project.stars }}</span>{% endif %}
+            {% if project.forks is not none %}<span class="tag">⑂ {{ project.forks }}</span>{% endif %}
+            {% for topic in project.topics %}<span class="tag">{{ topic }}</span>{% endfor %}
+        </div>
+        {% endif %}
+    </article>
+    {% else %}
+    <p class="empty-state" lang="{{ t.language }}">{{ t.no_projects }}</p>
+    {% endfor %}
+</section>
+{% endblock %}

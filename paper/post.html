@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% set page_title = page.item.title %}
+{% set section = 'Ideas' if page.kind == 'idea' else ('About' if page.kind == 'about' else 'Blog') %}
+{% set section_path = site.routes.ideas.canonical_path if page.kind == 'idea' else (site.routes.about.canonical_path if page.kind == 'about' else site.routes.blog.canonical_path) %}
+{% block content %}
+<article>
+  <header class="page-heading">
+    <p class="eyebrow">{{ section }}</p>
+    <h1>{{ page.item.title }}</h1>
+    {% if page.kind != 'about' and page.item.created_date %}<time datetime="{{ page.item.created_date }}">{{ page.item.created_date }}</time>{% endif %}
+    {% if page.item.tags %}
+    <ul class="tags" aria-label="Tags">
+      {% for tag in page.item.tags %}<li>{% if tag.path %}<a href="{{ tag.path }}">{{ tag.name }}</a>{% else %}<span>{{ tag.name }}</span>{% endif %}</li>{% endfor %}
+    </ul>
+    {% endif %}
+  </header>
+  <div class="prose">{{ page.item.body_html|safe }}</div>
+</article>
+{% if page.newer or page.older %}
+<nav class="neighbors" aria-label="{{ section }} navigation">
+  {% if page.newer %}<a rel="prev" href="{{ page.newer.canonical_path }}">← Newer: {{ page.newer.title }}</a>{% endif %}
+  {% if page.older %}<a rel="next" href="{{ page.older.canonical_path }}">Older: {{ page.older.title }} →</a>{% endif %}
+</nav>
+{% endif %}
+{% if page.item.issue_number and site.comments.enabled %}
+<section class="comments" aria-label="Comments">
+  <div id="comments-container" data-issue-number="{{ page.item.issue_number }}" data-comments-repo="{{ site.comments.repo }}" data-source-repo="{{ site.repo }}" data-comments-theme="github-light" data-comments-theme-mode="fixed" data-blog-theme-default="light">
+    <p class="comments-loading" role="status">Loading comments…</p>
+  </div>
+</section>
+<script src="{{ '/assets/escaping/comments.js'|url }}" defer></script>
+{% endif %}
+<script src="{{ '/assets/escaping/mermaid.js'|url }}" data-runtime-src="{{ '/assets/escaping/mermaid/mermaid.min.js'|url }}" data-mermaid-theme="neutral" defer></script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{#- A Blog post or an Idea: Issue rail, 720px reading column and a section outline. -#}
+{% extends 'base.html' %}
+{% set article = page.item %}
+{% set page_title = article.title %}
+{% set is_idea = page.kind == 'idea' %}
+{% block content %}
+{% from '_macros.html' import issue_number, dotted, plain_tags, author_mark_src, comments, mermaid with context %}
+<div class="article-page page-shell{% if is_idea %} idea-page{% endif %}">
+    <div class="article-back">
+        {% if is_idea %}<a class="back-link" href="{{ site.routes.ideas.canonical_path }}">← {{ t.back_to_ideas }}</a>
+        {% else %}<a class="back-link" href="{{ site.routes.blog.canonical_path }}">← {{ t.back_to_blog }}</a>{% endif %}
+    </div>
+
+    <article class="article-layout">
+        <aside class="article-issue" aria-label="{{ t.article_metadata }}">
+            <strong>{{ issue_number(article.issue_number) }}</strong><span>{{ t.idea if is_idea else t.issue }}</span>
+            <time datetime="{{ article.created_date }}">{{ dotted(article.created_date) }}</time>
+        </aside>
+
+        <div class="article-main">
+            <header class="article-heading">
+                <p class="utility-label">{{ t.idea_label if is_idea else t.post_label }}</p>
+                <h1>{{ article.title }}</h1>
+                <p class="article-description">{{ article.description }}</p>
+                {% if is_idea %}
+                {{ plain_tags(article.tags) }}
+                {% else %}
+                <div class="article-byline">
+                    <img src="{{ author_mark_src() }}" alt="" width="36" height="36">
+                    <span>{{ site.author }}</span>
+                    {{ plain_tags(article.tags) }}
+                </div>
+                {% endif %}
+            </header>
+            <div class="post-content">{{ article.body_html|safe }}</div>
+        </div>
+
+        <aside class="article-toc" aria-labelledby="article-toc-title">
+            <p id="article-toc-title">{{ t.on_this_page }}</p>
+            <nav data-article-toc aria-label="{{ t.article_sections }}"></nav>
+        </aside>
+    </article>
+</div>
+
+{% if site.comments.enabled and article.issue_number %}{{ comments(article.issue_number) }}{% endif %}
+{% include '_article_tools.html' %}
+{{ mermaid() }}
+{% endblock %}

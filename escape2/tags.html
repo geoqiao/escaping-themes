@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% set page_title = t.tags %}
+
+{% block content %}
+<div class="listHeader">
+    <h1 lang="{{ t.language }}">{{ t.tags }}</h1>
+</div>
+
+<div class="tag-list">
+    {% for item in page.items %}
+    <span class="tag-item">
+        <a href="{{ item.route.canonical_path }}" class="tag">{{ item.name }}</a>
+        <span class="tag-count">{{ item.count }}</span>
+    </span>
+    {% else %}
+    <p class="empty-state" lang="{{ t.language }}">{{ t.no_tags }}</p>
+    {% endfor %}
+</div>
+{% endblock %}

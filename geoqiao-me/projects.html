@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% set page_title = t.projects %}
+{% block content %}
+<section class="page-shell projects-page" aria-labelledby="projects-title">
+    <header class="page-intro">
+        <p class="utility-label">{{ t.projects_label }}</p>
+        <h1 id="projects-title">{{ t.projects }}</h1>
+        <p>{{ t.projects_caption }}</p>
+    </header>
+
+    {% if page.items %}
+    <div class="project-rows">
+        {% for project in page.items %}
+        <article class="project-row" id="{{ project.slug }}">
+            <div class="project-number">{{ "%02d"|format(loop.index) }}</div>
+            <div class="project-copy">
+                <p class="utility-label">{{ t.featured if project.featured else t.project }}{% if project.language %} / {{ project.language }}{% endif %}</p>
+                {#- A project with its own page (pages.extra for_each: projects) links there; otherwise to its website or repository. -#}
+                {% if project.page %}
+                <h2><a href="{{ project.page.canonical_path }}">{{ project.title }} →</a></h2>
+                {% else %}
+                <h2><a href="{{ project.url }}">{{ project.title }} ↗</a></h2>
+                {% endif %}
+                {% if project.summary %}<p>{{ project.summary }}</p>{% endif %}
+                {% if project.stars is not none or project.forks is not none or project.topics %}
+                <div class="project-meta">
+                    {% if project.stars is not none %}<span title="{{ t.stars }}">★ {{ project.stars }}</span>{% endif %}
+                    {% if project.forks is not none %}<span title="{{ t.forks }}">⑂ {{ project.forks }}</span>{% endif %}
+                    {% for topic in project.topics %}<span>#{{ topic }}</span>{% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">{{ t.projects_empty }}</p>
+    {% endif %}
+</section>
+{% endblock %}

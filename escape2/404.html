@@ -1,0 +1,14 @@
+{#- Served by the host for any missing address, at any depth: every link
+    here comes from a Route or the url filter. -#}
+{% extends 'base.html' %}
+{% set page_title = t.not_found %}
+
+{% block content %}
+<section lang="{{ t.language }}">
+    <div class="listHeader">
+        <h1>404: {{ t.not_found }}</h1>
+    </div>
+    <p class="intro-line">{{ t.not_found_body }}</p>
+    <p><a href="{{ site.routes.home.canonical_path }}">{{ t.back_home }}</a></p>
+</section>
+{% endblock %}

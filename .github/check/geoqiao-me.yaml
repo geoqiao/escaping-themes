@@ -1,0 +1,53 @@
+# Checks geoqiao-me/ in .github/workflows/check.yml.
+github:
+  repo: alice/site
+  allowed_authors:
+  - alice
+site:
+  title: Alice 的笔记
+  author: Alice
+  url: https://example.github.io/
+  description: 关于工具、代码和日常的笔记。
+  language: zh-CN
+  navigation:
+    items:
+    - name: Blog
+      url: /blog/
+    - name: Ideas
+      url: /ideas/
+    - name: Projects
+      url: /projects/
+    - name: Tags
+      url: /tags/
+    - name: About
+      url: /about/
+profile:
+  avatar: ''
+  bio: I build small tools.
+  links:
+  - name: GitHub
+    url: https://github.com/alice
+comments:
+  enabled: true
+  repo: alice/site
+seo:
+  google_search_console: abc123
+theme:
+  use: ./theme
+paths:
+  page_size: 2
+projects:
+- repository: alice/tool
+  title: Tool
+  summary: A small utility maintained alongside these notes.
+  featured: true
+  order: 1
+  fallback_metadata:
+    stars: 18
+    forks: 3
+    language: Python
+- website: https://notebook.example/
+  slug: notebook
+  title: Notebook
+  summary: A standalone web project without a source repository.
+  order: 2

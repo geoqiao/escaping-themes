@@ -1,0 +1,131 @@
+api: 4
+
+options:
+  accent_color:
+    type: color
+    default: "#b65d3f"
+    description: The accent used for links, rules, and small labels.
+  show_issue_number:
+    type: boolean
+    default: false
+    description: Show the source GitHub Issue number on Issue-backed pages.
+  now_text:
+    type: string
+    default: "Keeping notes, building small tools, and learning in public."
+    description: The short update shown on the Now page.
+
+strings:
+  en:
+    skip: Skip to content
+    home: Home
+    main_nav: Main navigation
+    search: Search
+    search_label: Search the site
+    search_placeholder: Search titles, summaries, and tags
+    search_button: Find
+    search_idle: Search posts, ideas, and projects.
+    search_empty: No matching pages.
+    search_error: Search is unavailable right now.
+    rss: RSS feed
+    home_kicker: Field notes / issue ledger
+    recent: Recent entries
+    archive: The archive
+    blog: Writing
+    ideas: Ideas
+    older: Older entries
+    newer: Newer entries
+    page_of: Page
+    of: of
+    ideas_kicker: Working notes
+    idea: Idea
+    about: About
+    tags: Tags
+    all_tags: All tags
+    projects: Projects
+    projects_kicker: Selected work
+    no_posts: No entries have been published yet.
+    no_ideas: No ideas have been published yet.
+    no_tags: No tags yet.
+    no_projects: No projects have been selected yet.
+    read_more: Read entry
+    comments: Discussion
+    comments_fallback: Open this Issue on GitHub to read or add a comment.
+    comments_unavailable: Comments could not be loaded.
+    github_issue: View the source Issue
+    post_content: Article content
+    idea_content: Idea content
+    about_content: About content
+    issue: Issue
+    profile_about: A note about the author
+    now: Now
+    now_kicker: Current practice
+    now_intro: What I am spending time on lately.
+    project: Project
+    repository: Repository
+    website: Website
+    stars: stars
+    forks: forks
+    programming_language: Language
+    visit_project: Visit project
+    return_home: Return home
+    not_found: Page not found
+    profile_links: Elsewhere
+    all_writing: All writing
+    about_site: About this site
+  zh:
+    skip: 跳到正文
+    home: 首页
+    main_nav: 主导航
+    search: 搜索
+    search_label: 搜索本站
+    search_placeholder: 搜索标题、摘要和标签
+    search_button: 查找
+    search_idle: 搜索文章、想法和项目。
+    search_empty: 没有找到匹配内容。
+    search_error: 暂时无法使用搜索。
+    rss: RSS 订阅
+    home_kicker: 记录 / 文章账本
+    recent: 最近记录
+    archive: 浏览归档
+    blog: 文章
+    ideas: 想法
+    older: 更早的记录
+    newer: 更新的记录
+    page_of: 第
+    of: 页，共
+    ideas_kicker: 随手记
+    idea: 想法
+    about: 关于
+    tags: 标签
+    all_tags: 全部标签
+    projects: 项目
+    projects_kicker: 精选作品
+    no_posts: 还没有发布文章。
+    no_ideas: 还没有发布想法。
+    no_tags: 暂无标签。
+    no_projects: 暂无精选项目。
+    read_more: 阅读记录
+    comments: 讨论
+    comments_fallback: 在 GitHub 上打开此 Issue 以阅读或发表评论。
+    comments_unavailable: 暂时无法加载评论。
+    github_issue: 查看源 Issue
+    post_content: 文章正文
+    idea_content: 想法正文
+    about_content: 关于正文
+    issue: Issue
+    profile_about: 作者介绍
+    now: 近况
+    now_kicker: 最近在做
+    now_intro: 最近投入时间的事情。
+    project: 项目
+    repository: 代码仓库
+    website: 网站
+    stars: 星
+    forks: 复刻
+    programming_language: 语言
+    visit_project: 访问项目
+    return_home: 返回首页
+    not_found: 页面不存在
+    profile_links: 其他链接
+    all_writing: 所有文章
+    about_site: 关于本站

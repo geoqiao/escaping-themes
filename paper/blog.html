@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% set heading = site.title if page.kind == 'home' else ('Ideas' if page.kind == 'ideas' else 'Blog') %}
+{% set page_title = heading ~ (' · Page ' ~ page.pagination.number if page.kind == 'blog' and page.pagination.number > 1 else '') %}
+{% set section_path = site.routes.home.canonical_path if page.kind == 'home' else (site.routes.ideas.canonical_path if page.kind == 'ideas' else site.routes.blog.canonical_path) %}
+{% block content %}
+<header class="page-heading">
+  <p class="eyebrow">{{ 'A personal notebook' if page.kind == 'home' else ('Brief notes' if page.kind == 'ideas' else 'The archive') }}</p>
+  <h1>{{ heading }}</h1>
+  <p>{{ site.profile.bio or site.description if page.kind == 'home' else ('Thoughts worth keeping.' if page.kind == 'ideas' else site.description) }}</p>
+</header>
+{% if page.kind == 'home' %}<h2 class="list-heading">Recent writing</h2>{% endif %}
+<ul class="entries">
+  {% for item in page.items %}
+  <li>
+    <article>
+      <time datetime="{{ item.created_date }}">{{ item.created_date }}</time>
+      <h2><a href="{{ item.canonical_path }}">{{ item.title }}</a></h2>
+      {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+      {% if item.tags %}
+      <ul class="tags" aria-label="Tags">
+        {% for tag in item.tags %}<li>{% if tag.path %}<a href="{{ tag.path }}">{{ tag.name }}</a>{% else %}<span>{{ tag.name }}</span>{% endif %}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    </article>
+  </li>
+  {% else %}
+  <li class="empty">{{ 'No ideas yet.' if page.kind == 'ideas' else 'No posts yet.' }}</li>
+  {% endfor %}
+</ul>
+{% if page.kind == 'home' %}
+<p class="archive-link"><a href="{{ site.routes.blog.canonical_path }}">All writing →</a></p>
+{% elif page.kind == 'blog' and page.pagination.total > 1 %}
+<nav class="pagination" aria-label="Blog pages">
+  {% if page.pagination.prev %}<a rel="prev" href="{{ page.pagination.prev.canonical_path }}">← Newer posts</a>{% endif %}
+  <span>Page {{ page.pagination.number }} of {{ page.pagination.total }}</span>
+  {% if page.pagination.next %}<a rel="next" href="{{ page.pagination.next.canonical_path }}">Older posts →</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}

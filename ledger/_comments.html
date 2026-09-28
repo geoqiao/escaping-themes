@@ -1,0 +1,20 @@
+{% if site.comments.enabled and comments_issue_number %}
+<section class="comments" aria-labelledby="comments-heading">
+  <div class="section-rule"><span>{{ t.comments }}</span></div>
+  <h2 class="visually-hidden" id="comments-heading">{{ t.comments }}</h2>
+  <p class="comment-source"><a href="https://github.com/{{ site.repo }}/issues/{{ comments_issue_number }}">{{ t.comments_fallback }}</a></p>
+  <div id="comments-container"
+       data-issue-number="{{ comments_issue_number }}"
+       data-comments-repo="{{ site.comments.repo }}"
+       data-source-repo="{{ site.repo }}"
+       data-comments-theme="github-light"
+       data-comments-theme-mode="fixed"
+       data-blog-theme-default="light"
+       data-unavailable-text="{{ t.comments_unavailable }}"
+       data-issue-link-text="{{ t.github_issue }}">
+    <p class="comments-loading" role="status">{{ t.comments }}…</p>
+  </div>
+  <noscript><p>{{ t.comments_fallback }}</p></noscript>
+</section>
+<script src="{{ '/assets/escaping/comments.js'|url }}" defer></script>
+{% endif %}

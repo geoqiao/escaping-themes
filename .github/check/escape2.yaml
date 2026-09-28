@@ -1,0 +1,71 @@
+# Checks escape2/ in .github/workflows/check.yml.
+github:
+  repo: alice/site
+  allowed_authors:
+  - alice
+site:
+  title: Alice's notes
+  author: Alice
+  url: https://example.github.io/
+  description: Notes on tools and code.
+  language: en
+  navigation:
+    items:
+    - name: home
+      url: /
+    - name: blog
+      url: /blog/
+    - name: ideas
+      url: /ideas/
+    - name: projects
+      url: /projects/
+    - name: tags
+      url: /tags/
+    - name: about
+      url: /about/
+profile:
+  avatar: ''
+  bio: I build small tools and write about them.
+  links:
+  - name: GitHub
+    url: https://github.com/alice
+  - name: Email
+    url: mailto:alice@example.com
+pages:
+  ideas: true
+  tags: true
+  projects: true
+  about: true
+redirects:
+  /2020/old-post.html: /blog/hello-world/
+theme:
+  use: ./theme
+  options:
+    thesis:
+    - Escaping is a static blog system based on GitHub Issues.
+    - '   '
+    - Every post here started life as an Issue.
+    source_link_url: https://github.com/geoqiao/escaping
+    powered_by_url: /about/
+comments:
+  enabled: true
+  repo: alice/site
+seo:
+  google_search_console: abc123
+paths:
+  page_size: 2
+projects:
+- repository: alice/tool
+  title: Tool
+  summary: A small utility maintained alongside these notes.
+  featured: true
+  order: 1
+  fallback_metadata:
+    stars: 18
+    forks: 3
+    language: Python
+- website: https://notebook.example/
+  slug: notebook
+  title: Notebook
+  summary: ''
+  order: 2

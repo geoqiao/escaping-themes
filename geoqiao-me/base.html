@@ -1,0 +1,166 @@
+{#- Layout for every page. Page templates may set, outside any block:
+    page_title  — shown before " - site title" in <title>; empty on Home. -#}
+{% set page_title = page_title|default('') %}
+{% set full_title = page_title ~ ' - ' ~ site.title if page_title else site.title %}
+{% set social_title = page.item.title if page.kind in ('post', 'idea') else full_title %}
+{#- The menu marks one section current: a post counts as the Blog, an Idea as Ideas,
+    a per-project extra page as Projects. -#}
+{% set section = {'post': 'blog', 'idea': 'ideas', 'tag': 'tags'}.get(page.kind, page.kind) %}
+{% if page.kind == 'page' and page.project and site.routes.projects %}
+{% set active_path = site.routes.projects.canonical_path %}
+{% elif page.kind == 'page' %}
+{% set active_path = page.route.canonical_path %}
+{% elif section in ('home', 'blog', 'ideas', 'tags', 'about', 'projects') %}
+{% set active_path = site.routes[section].canonical_path %}
+{% else %}
+{% set active_path = '' %}
+{% endif %}
+{#- Absolute URLs for the preview image need the origin: site.url minus the site's path. -#}
+{% set origin = site.url[:site.url|length - site.routes.home.canonical_path|length] %}
+{% set favicon = theme.favicon or '/assets/images/favicon.png' %}
+{% set favicon_url = favicon if favicon.startswith('https://') else origin ~ favicon|url %}
+{% set social_image = site.seo.social_image or favicon_url %}
+<!DOCTYPE html>
+<html lang="{{ site.language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ page.description }}">
+    <meta name="theme-color" content="#f4f5f6" id="theme-color">
+    {% if site.seo.google_search_console %}<meta name="google-site-verification" content="{{ site.seo.google_search_console }}">{% endif %}
+    <title>{{ full_title }}</title>
+    {% if page.route %}
+    <link rel="canonical" href="{{ page.route.canonical_url }}">
+    {% else %}
+    <meta name="robots" content="noindex">
+    {% endif %}
+
+    <meta property="og:type" content="{{ 'article' if page.kind in ('post', 'idea') else 'website' }}">
+    {% if page.route %}<meta property="og:url" content="{{ page.route.canonical_url }}">{% endif %}
+    <meta property="og:site_name" content="{{ site.title }}">
+    <meta property="og:title" content="{{ social_title }}">
+    <meta property="og:description" content="{{ page.description }}">
+    <meta property="og:image" content="{{ social_image }}">
+    {% if site.seo.social_image and site.seo.social_image_alt %}<meta property="og:image:alt" content="{{ site.seo.social_image_alt }}">{% endif %}
+
+    <meta name="twitter:card" content="{{ 'summary_large_image' if site.seo.social_image else 'summary' }}">
+    {% if page.route %}<meta name="twitter:url" content="{{ page.route.canonical_url }}">{% endif %}
+    <meta name="twitter:title" content="{{ social_title }}">
+    <meta name="twitter:description" content="{{ page.description }}">
+    <meta name="twitter:image" content="{{ social_image }}">
+    {% if site.seo.social_image and site.seo.social_image_alt %}<meta name="twitter:image:alt" content="{{ site.seo.social_image_alt }}">{% endif %}
+
+    <script>
+    (function() {
+        // Delegate before first paint; failed binding leaves navigation expanded.
+        function setMenuOpen(menuButton, expanded) {
+            menuButton.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            document.querySelector('.navigation-scrim').hidden = !expanded;
+            var regions = document.querySelectorAll('.skip-link, .ledger-brand, .site-content, .ledger-footer');
+            for (var index = 0; index < regions.length; index += 1) {
+                regions[index].inert = expanded;
+            }
+        }
+        function closeMenu() {
+            var menuButton = document.querySelector('.hamb');
+            if (!menuButton) return;
+            setMenuOpen(menuButton, false);
+            menuButton.focus();
+        }
+        document.addEventListener('click', function(event) {
+            var menuButton = event.target.closest('.hamb');
+            if (menuButton) {
+                setMenuOpen(menuButton, menuButton.getAttribute('aria-expanded') !== 'true');
+            } else if (event.target.closest('.navigation-scrim')) {
+                closeMenu();
+            }
+        });
+        document.addEventListener('keydown', function(event) {
+            var menuButton = document.querySelector('.hamb');
+            if (event.key === 'Escape' && menuButton && menuButton.getAttribute('aria-expanded') === 'true') {
+                closeMenu();
+            }
+        });
+        window.addEventListener('resize', function() {
+            var menuButton = document.querySelector('.hamb');
+            if (menuButton && menuButton.getAttribute('aria-expanded') === 'true' && window.getComputedStyle(menuButton).display === 'none') {
+                setMenuOpen(menuButton, false);
+            }
+        });
+        document.documentElement.classList.add('navigation-ready');
+    })();
+    </script>
+    <script src="{{ '/assets/js/theme.js'|url }}"></script>
+    <link rel="stylesheet" href="{{ '/assets/css/prism-signal-blue.css'|url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css'|url }}">
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ site.routes.atom.canonical_path }}">
+    <link rel="icon" type="image/png" href="{{ favicon|url }}">
+    {% if page.json_ld %}<script type="application/ld+json">{{ page.json_ld|tojson }}</script>{% endif %}
+</head>
+<body data-page="{{ page.kind }}" data-prismjs-copy="{{ t.copy_code }}" data-prismjs-copy-success="{{ t.copied }}" data-prismjs-copy-error="{{ t.copy_failed }}">
+    <a href="#main-content" class="skip-link" lang="{{ t.language }}">{{ t.skip_to_content }}</a>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="site-frame">
+        <header class="ledger-header">
+            <div class="ledger-header-inner">
+                <a href="{{ site.routes.home.canonical_path }}" class="ledger-brand" aria-label="{{ site.author }} — {{ t.home }}"{% if page.kind == 'home' %} aria-current="page"{% endif %}>
+                    <span class="ledger-brand-signal" aria-hidden="true"><i></i><i></i></span>
+                    <strong>{{ site.author }}</strong>
+                </a>
+                {% set theme_toggle %}
+                <button class="theme-toggle" type="button" lang="{{ t.language }}" aria-pressed="false" aria-label="{{ t.switch_to_dark }}" data-label-dark="{{ t.dark }}" data-label-light="{{ t.light }}" data-switch-to-dark="{{ t.switch_to_dark }}" data-switch-to-light="{{ t.switch_to_light }}" hidden>
+                    <span class="theme-swatch" aria-hidden="true"><i></i><i></i></span><span data-theme-label>{{ t.dark }}</span>
+                </button>
+                {% endset %}
+                {% if site.navigation %}
+                <button class="hamb" type="button" aria-label="{{ t.toggle_menu }}" aria-expanded="false" aria-controls="header-nav"><span class="hamb-line" aria-hidden="true"></span></button>
+                <nav class="ledger-nav" id="header-nav" aria-label="{{ t.primary_navigation }}">
+                    <ul>
+                        {% for item in site.navigation %}
+                        <li><a class="ledger-nav-link" href="{{ item.url }}"{% if item.url == active_path %} aria-current="page"{% endif %}><span>{{ item.name }}</span></a></li>
+                        {% endfor %}
+                        <li>{{ theme_toggle }}</li>
+                    </ul>
+                </nav>
+                {% else %}
+                {{ theme_toggle }}
+                {% endif %}
+            </div>
+        </header>
+        {% if site.navigation %}<button class="navigation-scrim" type="button" tabindex="-1" aria-label="{{ t.close_navigation }}" hidden></button>{% endif %}
+
+        <div class="site-content">
+            <main class="site-main" id="main-content" tabindex="-1">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+
+        <footer class="ledger-footer">
+            <div class="footer-inner">
+                <nav class="footer-links" aria-label="{{ t.footer_links }}">
+                    <a href="{{ site.routes.atom.canonical_path }}">{{ t.rss }}</a>
+                    {% for link in site.profile.links %}<a href="{{ link.url }}">{{ link.name }}</a>{% endfor %}
+                    {% if theme.show_powered_by and theme.powered_by_url %}<a href="{{ theme.powered_by_url|url }}">{{ t.source }}</a>{% endif %}
+                </nav>
+                <span>&copy; {{ site.author }}</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ '/assets/js/prism.js'|url }}"></script>
+    <script>
+    (function() {
+        var progress = document.querySelector('.scroll-progress');
+        if (progress) {
+            function updateProgress() {
+                var maximum = document.documentElement.scrollHeight - window.innerHeight;
+                progress.style.transform = 'scaleX(' + (maximum > 0 ? window.scrollY / maximum : 0) + ')';
+            }
+            window.addEventListener('scroll', updateProgress, { passive: true });
+            window.addEventListener('resize', updateProgress);
+            updateProgress();
+        }
+    })();
+    </script>
+</body>
+</html>

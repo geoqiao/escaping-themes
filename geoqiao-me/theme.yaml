@@ -1,0 +1,187 @@
+# geoqiao.me — a Chinese-first personal writer Theme for escaping (Theme API 4).
+# Set options under theme.options in config.yaml; see README.md.
+api: 4
+
+options:
+  author_mark:
+    type: url
+    default: ""
+    description: >-
+      Image shown next to the byline on posts and beside the About heading.
+      Empty uses profile.avatar, or the bundled GQ mark when the site has no avatar.
+  favicon:
+    type: url
+    default: ""
+    description: >-
+      Browser icon, also the preview image when seo.social_image is empty.
+      Empty uses the bundled GQ mark.
+  blog_intro:
+    type: string
+    default: ""
+    description: The line under the Blog heading; empty uses the Theme's own text.
+  show_powered_by:
+    type: boolean
+    default: true
+    description: Show the "Source" link in the footer.
+  powered_by_url:
+    type: url
+    default: https://github.com/geoqiao/escaping
+    description: Where the footer "Source" link points.
+  comments_theme:
+    type: choice
+    values: [github-light, github-dark, preferred-color-scheme, github-dark-orange, icy-dark, dark-blue, photon-dark, boxy-light, gruvbox-dark]
+    default: github-light
+    description: Utterances color theme used when comments_theme_mode is fixed.
+  comments_theme_mode:
+    type: choice
+    values: [auto, fixed]
+    default: auto
+    description: auto follows the light/dark choice; fixed always uses comments_theme.
+
+strings:
+  en:
+    skip_to_content: Skip to main content
+    home: Home
+    toggle_menu: Toggle menu
+    primary_navigation: Primary navigation
+    close_navigation: Close navigation
+    dark: Dark
+    light: Light
+    switch_to_dark: Switch to dark mode
+    switch_to_light: Switch to light mode
+    footer_links: Footer links
+    rss: RSS
+    source: Source
+    copy_code: Copy
+    copied: Copied!
+    copy_failed: Press Ctrl+C to copy
+    read_title: "Read {title}"
+    home_label: Personal writing
+    latest_meta: "Latest · Issue {number} · {date}"
+    read_this_issue: Read this issue
+    recent_label: Recent
+    recent_writing: Recent writing
+    view_all_blog: View all Blog
+    more_writing_soon: More writing is on the way.
+    blog: Blog
+    blog_label: Writing / Archive
+    blog_caption: On tools, AI, ways of working, and the fragments of life worth keeping.
+    blog_empty: No public posts yet.
+    blog_pages: Blog pages
+    previous: ← Previous
+    next: Next →
+    ideas: Ideas
+    ideas_label: Notes / In progress
+    ideas_caption: Judgements, questions and experiments that are still growing.
+    ideas_empty: No public ideas yet.
+    tag_label: Tag / Archive
+    all_tags: All tags
+    back_to_blog: Back to Blog
+    back_to_ideas: Back to Ideas
+    article_metadata: Article metadata
+    issue: Issue
+    idea: Idea
+    post_label: Blog / Published
+    idea_label: Idea / In progress
+    on_this_page: On this page
+    article_sections: Article sections
+    about: About
+    about_label: About
+    about_issue_label: "About / Issue {number}"
+    author_mark_label: "{author} author mark"
+    profile_links: Profile links
+    tags: Tags
+    tags_label: Index / Subjects
+    tags_caption: Revisit what has been written, subject by subject.
+    tags_empty: No Blog tags yet.
+    entry_one: entry
+    entry_many: entries
+    projects: Projects
+    projects_label: Tools / Systems
+    projects_caption: Tools and works, maintained and revised over time.
+    projects_empty: No public projects yet.
+    featured: Featured
+    project: Project
+    stars: Stars
+    forks: Forks
+    comments_loading: Loading comments...
+    comments_noscript: Please enable JavaScript to view comments.
+    comments_unavailable: Comments may not be available. Your network or browser privacy settings may block third-party content.
+    comments_view_on_github: View or add comment on GitHub →
+    not_found_label: 404 / Not found
+    not_found: Page not found
+    not_found_body: This page does not exist, or it has moved.
+    back_home: Back to Home
+  zh:
+    skip_to_content: 跳到正文
+    home: 首页
+    toggle_menu: 打开或关闭菜单
+    primary_navigation: 主导航
+    close_navigation: 关闭导航
+    dark: 深色
+    light: 浅色
+    switch_to_dark: 切换到深色模式
+    switch_to_light: 切换到浅色模式
+    footer_links: 页脚链接
+    rss: RSS
+    source: 源码
+    copy_code: 复制
+    copied: 已复制
+    copy_failed: 请按 Ctrl+C 复制
+    read_title: "阅读《{title}》"
+    home_label: 个人写作
+    latest_meta: "最新 · Issue {number} · {date}"
+    read_this_issue: 阅读全文
+    recent_label: 近期
+    recent_writing: 近期文章
+    view_all_blog: 查看全部 Blog
+    more_writing_soon: 更多文章正在路上。
+    blog: Blog
+    blog_label: 写作 / 归档
+    blog_caption: 关于工具、AI、工作方法，以及生活中值得留下的碎片。
+    blog_empty: 还没有公开的 Blog。
+    blog_pages: Blog 分页
+    previous: ← 上一页
+    next: 下一页 →
+    ideas: Ideas
+    ideas_label: 笔记 / 进行中
+    ideas_caption: 尚在生长的判断、问题和实验记录。
+    ideas_empty: 还没有公开的 Idea。
+    tag_label: 标签 / 归档
+    all_tags: 全部标签
+    back_to_blog: 返回 Blog
+    back_to_ideas: 返回 Ideas
+    article_metadata: 文章信息
+    issue: Issue
+    idea: Idea
+    post_label: Blog / 已发布
+    idea_label: Idea / 进行中
+    on_this_page: 本页目录
+    article_sections: 文章章节
+    about: About
+    about_label: About
+    about_issue_label: "About / Issue {number}"
+    author_mark_label: "{author} 的作者标记"
+    profile_links: 个人链接
+    tags: Tags
+    tags_label: 索引 / 主题
+    tags_caption: 按主题回看已经写下的内容。
+    tags_empty: 还没有 Blog 标签。
+    entry_one: 篇
+    entry_many: 篇
+    projects: Projects
+    projects_label: 工具 / 系统
+    projects_caption: 持续维护、也持续修正的工具与作品。
+    projects_empty: 还没有公开的 Project。
+    featured: 精选
+    project: 项目
+    stars: Star
+    forks: Fork
+    comments_loading: 正在加载评论…
+    comments_noscript: 请启用 JavaScript 以查看评论。
+    comments_unavailable: 评论可能无法加载：网络或浏览器隐私设置可能拦截了第三方内容。
+    comments_view_on_github: 在 GitHub 上查看或发表评论 →
+    not_found_label: 404 / 未找到
+    not_found: 页面不存在
+    not_found_body: 这个页面不存在，或者已经移走了。
+    back_home: 返回首页

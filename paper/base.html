@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="{{ site.language }}" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title }}{% if page_title != site.title %} · {{ site.title }}{% endif %}</title>
+  <meta name="description" content="{{ page.description }}">
+  <link rel="canonical" href="{{ page.route.canonical_url }}">
+  <meta property="og:url" content="{{ page.route.canonical_url }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page.description }}">
+  <meta property="og:type" content="{{ 'article' if page.kind in ['post', 'idea'] else 'website' }}">
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ site.routes.atom.canonical_path }}">
+  <link rel="stylesheet" href="{{ '/assets/paper.css'|url }}">
+  {% if page.json_ld %}<script type="application/ld+json">{{ page.json_ld|tojson }}</script>{% endif %}
+</head>
+<body data-kind="{{ page.kind }}">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="masthead">
+    <a class="brand" href="{{ site.routes.home.canonical_path }}">{{ site.title }}</a>
+    {% if site.navigation %}
+    <nav aria-label="Main navigation">
+      {% for link in site.navigation %}
+      <a href="{{ link.url }}"{% if link.url == page.route.canonical_path %} aria-current="page"{% elif link.url == section_path %} aria-current="location"{% endif %}>{{ link.name }}</a>
+      {% endfor %}
+    </nav>
+    {% endif %}
+  </header>
+  <main id="main" tabindex="-1">{% block content %}{% endblock %}</main>
+  <footer>
+    <span>{{ site.author }} · {{ site.description }}</span>
+    {% if site.profile.links %}
+    <nav aria-label="Profile links">
+      {% for link in site.profile.links %}<a href="{{ link.url }}">{{ link.name }}</a>{% endfor %}
+    </nav>
+    {% endif %}
+  </footer>
+</body>
+</html>

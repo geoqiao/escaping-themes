@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% set page_title = t.ideas %}
+{% set active_destination = site.routes.ideas.canonical_path %}
+
+{% block content %}
+<header class="page-heading"><p class="eyebrow">02 / {{ t.ideas_kicker }}</p><h1>{{ t.ideas }}<span class="accent-dot">.</span></h1><p>{{ site.description }}</p></header>
+{% if page.items %}
+<ol class="entry-list">
+  {% for idea in page.items %}
+  <li><article class="entry-row">
+    <div class="entry-date"><time datetime="{{ idea.created_date }}">{{ idea.created_date }}</time></div>
+    <div class="entry-main"><h2><a href="{{ idea.canonical_path }}">{{ idea.title }}</a></h2><p>{{ idea.description }}</p>
+      {% if idea.tags %}<ul class="tag-list" aria-label="{{ t.tags }}">{% for tag in idea.tags %}<li><span>{{ tag.name }}</span></li>{% endfor %}</ul>{% endif %}
+    </div><a class="entry-arrow" href="{{ idea.canonical_path }}" aria-label="{{ t.read_more }}: {{ idea.title }}">↗</a>
+  </article></li>
+  {% endfor %}
+</ol>
+{% else %}<p class="empty-note">{{ t.no_ideas }}</p>{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% set page_title = t.now %}
+{% set active_destination = page.route.canonical_path %}
+
+{% block content %}
+<article class="now-page">
+  <header class="page-heading"><p class="eyebrow">06 / {{ t.now_kicker }}</p><h1>{{ t.now }}<span class="accent-dot">.</span></h1><p>{{ t.now_intro }}</p></header>
+  <div class="now-card"><p class="now-date">{{ site.author }} / {{ t.now }}</p><p>{{ theme.now_text }}</p></div>
+</article>
+{% endblock %}

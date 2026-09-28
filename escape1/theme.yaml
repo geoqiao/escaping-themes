@@ -1,0 +1,48 @@
+# Escape1 — a minimal light/dark reading theme, ported from escaping's
+# former built-in Theme to Theme API 4. See README.md for options and pages.
+api: 4
+
+options:
+  show_powered_by:
+    type: boolean
+    default: true
+    description: Show "powered by escaping" after the author name in the footer.
+  comments_theme:
+    type: choice
+    values: [github-light, github-dark, preferred-color-scheme, github-dark-orange, icy-dark, dark-blue, photon-dark, boxy-light, gruvbox-dark]
+    default: github-light
+    description: Utterances color theme used when comments_theme_mode is fixed.
+  comments_theme_mode:
+    type: choice
+    values: [auto, fixed]
+    default: auto
+    description: auto follows Escape1's light/dark mode; fixed always uses comments_theme.
+
+strings:
+  en:
+    skip_to_content: Skip to main content
+    toggle_menu: Toggle menu
+    toggle_theme: Toggle theme
+    switch_to_dark: Switch to dark mode
+    switch_to_light: Switch to light mode
+    recent_posts: Recent Posts
+    no_posts: No blog posts yet.
+    ideas: Ideas
+    no_ideas: No ideas yet.
+    tags: Tags
+    no_tags: No blog tags yet.
+    projects: Projects
+    no_projects: No projects yet.
+    about: About
+    links: Links
+    prev: ← Prev
+    next: Next →
+    powered_by: powered by
+    comments_loading: Loading comments...
+    comments_noscript: Please enable JavaScript to view comments.
+    copy: Copy
+    copied: Copied!
+    copy_failed: Press Ctrl+C to copy
+    not_found: Page not found
+    not_found_body: This page does not exist, or it has moved.
+    back_home: Back to Home

@@ -1,0 +1,19 @@
+# Quiet Notes -- extends the built-in Quiet: a different Home introduction, a
+# stylesheet and web font of its own, a now_text option and a /now/ template.
+# Set options under theme.options in config.yaml; see theme/README.md.
+api: 4
+extends: quiet
+
+options:
+  now_text:
+    type: string
+    default: Working on notes.
+    description: Shown on /now/ and in a head meta tag.
+
+strings:
+  en:
+    now_title: Now
+    footer_thanks: Thanks for stopping by.
+  zh:
+    now_title: 现在
+    footer_thanks: 谢谢来访。

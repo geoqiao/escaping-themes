@@ -1,0 +1,16 @@
+{#- Utterances thread for the Issue `comments_issue_number`. Include it only
+    when site.comments.enabled is true and the page has an Issue number. -#}
+<div class="comments" id="comments-container"
+     data-comments-repo="{{ site.comments.repo }}"
+     data-issue-number="{{ comments_issue_number }}"
+     data-source-repo="{{ site.repo }}"
+     data-comments-theme="{{ theme.comments_theme }}"
+     data-comments-theme-mode="{{ theme.comments_theme_mode }}"
+     data-blog-theme-default="dark"
+     data-unavailable-text="{{ t.comments_unavailable }}"
+     data-issue-link-text="{{ t.comments_issue_link }}"
+     lang="{{ t.language }}">
+    <p class="comments-loading" role="status">{{ t.comments_loading }}</p>
+    <noscript><p class="comments-error">{{ t.comments_noscript }}</p></noscript>
+</div>
+<script src="{{ '/assets/escaping/comments.js'|url }}" defer></script>

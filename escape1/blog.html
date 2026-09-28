@@ -1,0 +1,49 @@
+{#- Renders the Blog (with its pages), the Ideas list and each tag page. -#}
+{% extends 'base.html' %}
+{% from '_entries.html' import entries %}
+{% set page_title = t.ideas if page.kind == 'ideas' else (page.tag.name if page.kind == 'tag' else none) %}
+
+{% block content %}
+{% if page.kind == 'ideas' %}
+<section class="post-list">
+    <h1>{{ t.ideas }}</h1>
+    {% if page.items %}
+    {{ entries(page.items) }}
+    {% else %}
+    <p class="empty-state">{{ t.no_ideas }}</p>
+    {% endif %}
+</section>
+{% elif page.kind == 'tag' %}
+<h1>#{{ page.tag.name }}</h1>
+
+<section class="post-list">
+    {{ entries(page.items) }}
+</section>
+{% else %}
+<section class="post-list">
+    {% if page.items %}
+    {{ entries(page.items) }}
+    {% else %}
+    <p class="empty-state">{{ t.no_posts }}</p>
+    {% endif %}
+</section>
+
+{% if page.pagination and page.pagination.total > 1 %}
+<nav class="pagination">
+    {% if page.pagination.prev %}
+    <a href="{{ page.pagination.prev.canonical_path }}" class="pagination-prev">{{ t.prev }}</a>
+    {% else %}
+    <span class="pagination-prev disabled">{{ t.prev }}</span>
+    {% endif %}
+
+    <span>{{ page.pagination.number }} / {{ page.pagination.total }}</span>
+
+    {% if page.pagination.next %}
+    <a href="{{ page.pagination.next.canonical_path }}" class="pagination-next">{{ t.next }}</a>
+    {% else %}
+    <span class="pagination-next disabled">{{ t.next }}</span>
+    {% endif %}
+</nav>
+{% endif %}
+{% endif %}
+{% endblock %}

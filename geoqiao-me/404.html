@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% set page_title = t.not_found %}
+{% block content %}
+<section class="page-shell index-page not-found-page" aria-labelledby="not-found-title">
+    <header class="page-intro">
+        <p class="utility-label">{{ t.not_found_label }}</p>
+        <h1 id="not-found-title">{{ t.not_found }}</h1>
+        <p>{{ t.not_found_body }}</p>
+    </header>
+    <a class="latest-read" href="{{ site.routes.home.canonical_path }}">{{ t.back_home }} <span aria-hidden="true">→</span></a>
+</section>
+{% endblock %}

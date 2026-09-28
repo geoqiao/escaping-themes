@@ -1,0 +1,63 @@
+{#- Every list of posts or Ideas: the Blog and its older pages, a tag's posts
+    and the Ideas list. -#}
+{% extends 'base.html' %}
+{% set pagination = page.pagination %}
+{% if page.kind == 'tag' %}
+{% set page_title = page.tag.name %}
+{% elif page.kind == 'ideas' %}
+{% set page_title = t.ideas %}
+{% elif pagination.number > 1 %}
+{% set page_title = t.blog ~ ' (' ~ pagination.number ~ '/' ~ pagination.total ~ ')' %}
+{% else %}
+{% set page_title = t.blog %}
+{% endif %}
+
+{% block content %}
+<div class="listHeader">
+    {% if page.kind == 'tag' %}
+    <h1>#{{ page.tag.name }}</h1>
+    {% else %}
+    <h1 lang="{{ t.language }}">{{ t.ideas if page.kind == 'ideas' else t.blog }}</h1>
+    {% endif %}
+</div>
+
+<div class="postsList"{% if page.items %} role="list"{% endif %}>
+    {% for entry in page.items %}
+    <article class="postListItem" role="listitem">
+        <a class="postListLink" href="{{ entry.canonical_path }}">
+            <div class="postHeader">
+                <span class="postTitle">{{ entry.title }}</span>
+                <time class="postDate" datetime="{{ entry.created_date }}">{{ entry.created_date }}</time>
+            </div>
+        </a>
+        {% if entry.tags %}
+        <div class="postTags">
+            {% for tag in entry.tags %}
+            {% if tag.path %}<a href="{{ tag.path }}" class="tag">{{ tag.name }}</a>{% else %}<span class="tag">{{ tag.name }}</span>{% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </article>
+    {% else %}
+    <p class="empty-state" lang="{{ t.language }}">{{ t.no_ideas if page.kind == 'ideas' else t.no_posts }}</p>
+    {% endfor %}
+</div>
+
+{% if pagination.total > 1 %}
+<nav class="pagination" lang="{{ t.language }}">
+    {% if pagination.prev %}
+    <a href="{{ pagination.prev.canonical_path }}" class="pagination-prev" rel="prev">{{ t.newer_page }}</a>
+    {% else %}
+    <span class="pagination-prev disabled">{{ t.newer_page }}</span>
+    {% endif %}
+
+    <span class="pagination-info">{{ pagination.number }} / {{ pagination.total }}</span>
+
+    {% if pagination.next %}
+    <a href="{{ pagination.next.canonical_path }}" class="pagination-next" rel="next">{{ t.older_page }}</a>
+    {% else %}
+    <span class="pagination-next disabled">{{ t.older_page }}</span>
+    {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

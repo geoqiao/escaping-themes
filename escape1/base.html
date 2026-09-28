@@ -1,0 +1,108 @@
+{#- Layout for every page. A page template may set `page_title` (shown as
+    "<page_title> - <site title>") at its top level, outside any block. -#}
+{% set page_title = page_title|default(none) -%}
+{% set full_title = (page_title ~ ' - ' ~ site.title) if page_title else site.title -%}
+{#- og:image must be absolute; without a site image, use the favicon as Escape1 always did. -#}
+{% set social_image = site.seo.social_image or (site.url ~ 'assets/images/favicon.png') -%}
+<!DOCTYPE html>
+<html lang="{{ site.language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ page.description }}">
+    {% if site.seo.google_search_console %}<meta name="google-site-verification" content="{{ site.seo.google_search_console }}">{% endif %}
+    <title>{{ full_title }}</title>
+    {% if page.route %}
+    <link rel="canonical" href="{{ page.route.canonical_url }}">
+    {% else %}
+    <meta name="robots" content="noindex">
+    {% endif %}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{{ 'article' if page.kind in ('post', 'idea') else 'website' }}">
+    {% if page.route %}<meta property="og:url" content="{{ page.route.canonical_url }}">{% endif %}
+    <meta property="og:site_name" content="{{ site.title }}">
+    <meta property="og:title" content="{{ page_title or site.title }}">
+    <meta property="og:description" content="{{ page.description }}">
+    <meta property="og:image" content="{{ social_image }}">
+    {% if site.seo.social_image and site.seo.social_image_alt %}<meta property="og:image:alt" content="{{ site.seo.social_image_alt }}">{% endif %}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="{{ 'summary_large_image' if site.seo.social_image else 'summary' }}">
+    {% if page.route %}<meta name="twitter:url" content="{{ page.route.canonical_url }}">{% endif %}
+    <meta name="twitter:title" content="{{ page_title or site.title }}">
+    <meta name="twitter:description" content="{{ page.description }}">
+    <meta name="twitter:image" content="{{ social_image }}">
+    {% if site.seo.social_image and site.seo.social_image_alt %}<meta name="twitter:image:alt" content="{{ site.seo.social_image_alt }}">{% endif %}
+
+    <script>
+    (function() {
+        // Delegate before first paint; failed binding leaves navigation expanded.
+        document.addEventListener('change', function(event) {
+            if (event.target.id === 'side-menu') {
+                document.querySelector('.hamb').setAttribute('aria-expanded', event.target.checked ? 'true' : 'false');
+            }
+        });
+        document.addEventListener('keydown', function(event) {
+            var checkbox = document.getElementById('side-menu');
+            var label = document.querySelector('.hamb');
+            if (!checkbox || !label) return;
+            if (event.target === label && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                checkbox.checked = !checkbox.checked;
+                checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+            } else if (event.key === 'Escape' && checkbox.checked) {
+                event.preventDefault();
+                checkbox.checked = false;
+                checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+                label.focus();
+            }
+        });
+        document.documentElement.classList.add('navigation-ready');
+    })();
+    </script>
+    <script src="{{ '/assets/js/theme.js'|url }}"></script>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css'|url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/prism.css'|url }}">
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="{{ site.routes.atom.canonical_url }}">
+    <link rel="icon" type="image/png" href="{{ '/assets/images/favicon.png'|url }}">
+    {% if page.json_ld %}<script type="application/ld+json">{{ page.json_ld|tojson }}</script>{% endif %}
+</head>
+<body data-prismjs-copy="{{ t.copy }}" data-prismjs-copy-success="{{ t.copied }}" data-prismjs-copy-error="{{ t.copy_failed }}">
+    <a href="#main-content" class="skip-link">{{ t.skip_to_content }}</a>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="{{ site.routes.home.canonical_path }}" class="logo">{{ site.title }}</a>
+                {% set theme_toggle %}<button class="theme-toggle" type="button" aria-label="{{ t.toggle_theme }}" data-label-dark="{{ t.switch_to_dark }}" data-label-light="{{ t.switch_to_light }}" hidden>🌙</button>{% endset %}
+                {% if site.navigation %}
+                <input class="side-menu" type="checkbox" id="side-menu">
+                <label class="hamb" for="side-menu" role="button" tabindex="0" aria-label="{{ t.toggle_menu }}" aria-expanded="false" aria-controls="header-nav"><span class="hamb-line"></span></label>
+                <ul class="nav-links" id="header-nav">
+                    {% for item in site.navigation %}
+                    <li><a href="{{ item.url }}">{{ item.name }}</a></li>
+                    {% endfor %}
+                    <li>{{ theme_toggle }}</li>
+                </ul>
+                {% else %}
+                {{ theme_toggle }}
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ site.author }}{% if theme.show_powered_by %} · {{ t.powered_by }} <a href="https://github.com/geoqiao/escaping">escaping</a>{% endif %}</p>
+        </div>
+    </footer>
+
+    <script src="{{ '/assets/js/prism.js'|url }}"></script>
+</body>
+</html>

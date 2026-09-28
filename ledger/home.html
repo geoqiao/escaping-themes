@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% set page_title = t.home %}
+{% set active_destination = site.routes.home.canonical_path %}
+
+{% block content %}
+<section class="home-intro">
+  <p class="eyebrow">{{ t.home_kicker }}</p>
+  <h1>{{ site.author }}<span class="accent-dot">.</span></h1>
+  <p class="home-bio">{{ site.profile.bio }}</p>
+  <div class="intro-meta"><span>{{ site.description }}</span><a href="{{ site.routes.blog.canonical_path }}">{{ t.all_writing }} <span aria-hidden="true">↗</span></a></div>
+</section>
+<section class="content-section" aria-labelledby="recent-heading">
+  <div class="section-heading"><p class="eyebrow">01 / {{ t.archive }}</p><h2 id="recent-heading">{{ t.recent }}</h2></div>
+  {% set posts = site.posts[:5] %}
+  {% include "_post_list.html" %}
+</section>
+{% if site.featured_projects %}
+<section class="content-section project-strip" aria-labelledby="projects-heading">
+  <div class="section-heading"><p class="eyebrow">02 / {{ t.projects_kicker }}</p><h2 id="projects-heading">{{ t.projects }}</h2></div>
+  <div class="project-grid">
+    {% for project in site.featured_projects[:3] %}
+    <article class="project-card">
+      <p class="project-index">0{{ loop.index }}</p>
+      <h3>{% if project.page %}<a href="{{ project.page.canonical_path }}">{{ project.title }}</a>{% else %}<a href="{{ project.url }}">{{ project.title }}</a>{% endif %}</h3>
+      <p>{{ project.summary }}</p>
+    </article>
+    {% endfor %}
+  </div>
+  {% if site.routes.projects %}<p class="section-end"><a href="{{ site.routes.projects.canonical_path }}">{{ t.projects }} <span aria-hidden="true">↗</span></a></p>{% endif %}
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+name: Check Themes
+
+'on':
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          version: "0.12.0"
+      - name: Check every Theme at the root of a host and under a path
+        env:
+          # The escaping version the Themes are checked with.
+          ESCAPING: git+https://github.com/geoqiao/escaping@c7a16437777d606b132ab860d516c20ac436d429 # v0.3.0
+        run: |
+          set -euo pipefail
+          status=0
+          for manifest in */theme.yaml; do
+            name=${manifest%/theme.yaml}
+            config=.github/check/$name.yaml
+            if [ ! -f "$config" ]; then
+              echo "::error title=$name::add $config to check this Theme"
+              status=1
+              continue
+            fi
+            for url in https://example.github.io/ https://example.github.io/demo/; do
+              site=$(mktemp -d)
+              cp -R "$name" "$site/theme"
+              sed "s|https://example.github.io/|$url|" "$config" > "$site/config.yaml"
+              echo "::group::$name at $url"
+              uv tool run --python 3.14 --from "$ESCAPING" \
+                escpe theme check --config "$site/config.yaml" || status=1
+              echo "::endgroup::"
+            done
+          done
+          exit "$status"

@@ -1,0 +1,10 @@
+{#- Quiet Notes' Home introduction: replaces Quiet's default intro paragraph. -#}
+<div class="home-intro">
+  {% if theme.tagline %}<p class="home-tagline">{{ theme.tagline }}</p>{% endif %}
+  <p class="qn-intro">
+    This is a personal notebook built with escaping. I write short notes here,
+    mostly about tools and the way I work, and keep a running
+    <a href="{{ '/now/'|url }}">{{ t.now_title }}</a> page for what I am doing
+    right now.
+  </p>
+</div>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% set page_title = page.item.title %}
+{% set active_destination = site.routes.ideas.canonical_path %}
+
+{% block content %}
+<article class="detail-page">
+  <header class="page-heading detail-heading"><p class="eyebrow">{{ t.idea }} / {{ page.item.created_date }}</p><h1>{{ page.item.title }}<span class="accent-dot">.</span></h1>
+    {% if page.item.tags %}<ul class="tag-list" aria-label="{{ t.tags }}">{% for tag in page.item.tags %}<li><span>{{ tag.name }}</span></li>{% endfor %}</ul>{% endif %}
+    {% if theme.show_issue_number and page.item.issue_number %}<p class="source-number">{{ t.issue }} #{{ page.item.issue_number }}</p>{% endif %}
+  </header>
+  <div class="rich-content" tabindex="0" role="region" aria-label="{{ t.idea_content }}">{{ page.item.body_html|safe }}</div>
+  {% set comments_issue_number = page.item.issue_number %}{% include "_comments.html" %}
+</article>
+<script src="{{ '/assets/escaping/mermaid.js'|url }}" data-runtime-src="{{ '/assets/escaping/mermaid/mermaid.min.js'|url }}" data-mermaid-theme="neutral" defer></script>
+{% endblock %}

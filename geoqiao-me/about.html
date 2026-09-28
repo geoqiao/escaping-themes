@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% set about = page.item %}
+{% set page_title = t.about %}
+{% block content %}
+{% from '_macros.html' import issue_number, author_mark_src, comments, mermaid with context %}
+<article class="page-shell about-page">
+    <header class="about-heading">
+        <div>
+            <p class="utility-label">{% if about.is_profile %}{{ t.about_label }}{% else %}{{ t.about_issue_label|replace('{number}', issue_number(about.issue_number)) }}{% endif %}</p>
+            <h1>{% if about.is_profile %}{{ about.title }}{% else %}{{ t.about }}{% endif %}</h1>
+        </div>
+        <figure class="about-mark" aria-label="{{ t.author_mark_label|replace('{author}', site.author) }}"><img src="{{ author_mark_src() }}" alt="" width="1024" height="1024"></figure>
+    </header>
+
+    <div class="about-body post-content">{{ about.body_html|safe }}</div>
+
+    {% if site.profile.links %}
+    <nav class="about-links" aria-label="{{ t.profile_links }}">
+        {% for link in site.profile.links %}<a href="{{ link.url }}">{{ link.name }} ↗</a>{% endfor %}
+    </nav>
+    {% endif %}
+</article>
+
+{% if site.comments.enabled and about.issue_number %}{{ comments(about.issue_number) }}{% endif %}
+{% if about.issue_number %}{{ mermaid() }}{% endif %}
+{% endblock %}

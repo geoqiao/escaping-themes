@@ -1,0 +1,18 @@
+/* Quiet Notes: a small stylesheet layered on top of Quiet's own CSS. */
+@font-face {
+  font-family: "Quiet Notes Display";
+  src: url("../fonts/quiet-notes-display.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.home-intro .qn-intro {
+  font-family: "Quiet Notes Display", inherit;
+  max-width: 38em;
+}
+
+.now-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}

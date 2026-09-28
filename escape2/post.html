@@ -1,0 +1,39 @@
+{#- A Blog post or an Idea. -#}
+{% extends 'base.html' %}
+{% set item = page.item %}
+{% set page_title = item.title %}
+{% set og_type = 'article' %}
+
+{% block content %}
+<article class="postWrapper">
+    <h1>{{ item.title }}</h1>
+
+    <section class="postMetadata">
+        <dl>
+            {% if item.tags %}
+            <dt lang="{{ t.language }}">{{ t.meta_tags }}</dt>
+            <dd>
+                {% for tag in item.tags %}
+                {% if tag.path %}<a href="{{ tag.path }}" class="tag">#{{ tag.name }}</a>{% else %}<span class="tag">#{{ tag.name }}</span>{% endif %}{% if not loop.last %} {% endif %}
+                {% endfor %}
+            </dd>
+            {% endif %}
+            {% if item.created_date %}
+            <dt lang="{{ t.language }}">{{ t.meta_created }}</dt>
+            <dd><time datetime="{{ item.created_date }}">{{ item.created_date }}</time></dd>
+            {% endif %}
+        </dl>
+    </section>
+
+    <div class="post-content">
+        {{ item.body_html|safe }}
+    </div>
+</article>
+
+{% if site.comments.enabled and item.issue_number %}
+{% set comments_issue_number = item.issue_number %}
+{% include '_comments.html' %}
+{% endif %}
+
+{% include '_mermaid.html' %}
+{% endblock %}

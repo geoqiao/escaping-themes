@@ -1,0 +1,22 @@
+# Checks quiet-notes/ in .github/workflows/check.yml.
+github:
+  repo: alice/notes
+  allowed_authors:
+  - alice
+site:
+  title: Alice's notes
+  author: Alice
+  url: https://example.github.io/
+  description: Notes on tools and code.
+profile:
+  avatar: ''
+  bio: I build small tools.
+theme:
+  use: ./theme
+  options:
+    tagline: Researcher / tool builder
+    now_text: Reading about static site generators and writing small tools.
+pages:
+  extra:
+  - path: /now/
+    template: now.html

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% set page_title = t.not_found %}
+
+{% block content %}
+<article class="about-content">
+    <h1>{{ t.not_found }}</h1>
+    <p>{{ t.not_found_body }}</p>
+    <p><a href="{{ site.routes.home.canonical_path }}">{{ t.back_home }}</a></p>
+</article>
+{% endblock %}

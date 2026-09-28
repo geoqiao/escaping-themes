@@ -1,0 +1,64 @@
+# Escape2 — a dark, Nord-inspired terminal Theme for escaping.
+# Set these under theme.options in config.yaml; see README.md.
+api: 4
+
+options:
+  thesis:
+    type: list
+    default: []
+    description: Lines shown at the top of Home, one paragraph each. Blank lines are skipped.
+  source_link_url:
+    type: url
+    default: ""
+    description: Adds a "View source code →" link under the thesis on Home; empty hides it.
+  show_powered_by:
+    type: boolean
+    default: true
+    description: Show the "Powered by" link in the footer.
+  powered_by_text:
+    type: string
+    default: ""
+    description: Text of the footer link; empty uses the interface string powered_by ("Powered by").
+  powered_by_url:
+    type: url
+    default: https://github.com/geoqiao/escaping
+    description: Target of the footer link; empty hides the link.
+  comments_theme:
+    type: choice
+    values: [photon-dark, github-dark, github-dark-orange, icy-dark, dark-blue, gruvbox-dark, github-light, boxy-light, preferred-color-scheme]
+    default: photon-dark
+    description: Utterances color theme used when comments_theme_mode is fixed.
+  comments_theme_mode:
+    type: choice
+    values: [auto, fixed]
+    default: auto
+    description: auto follows the page's data-theme (always dark, so photon-dark); fixed always uses comments_theme.
+
+strings:
+  en:
+    skip_to_content: Skip to main content
+    toggle_menu: Toggle menu
+    recent_posts: Recent Posts
+    view_source: View source code →
+    blog: Blog
+    no_posts: No blog posts yet.
+    ideas: Ideas
+    no_ideas: No ideas yet.
+    tags: Tags
+    no_tags: No blog tags yet.
+    projects: Projects
+    no_projects: No projects yet.
+    about: About
+    links: Links
+    newer_page: ← prev
+    older_page: next →
+    meta_tags: tags
+    meta_created: created
+    comments_loading: Loading comments...
+    comments_noscript: Please enable JavaScript to view comments.
+    comments_unavailable: Comments may not be available. Your network or browser privacy settings may block third-party content.
+    comments_issue_link: View or add comment on GitHub →
+    powered_by: Powered by
+    not_found: Page not found
+    not_found_body: This page does not exist, or it has moved.
+    back_home: ← Back to Home

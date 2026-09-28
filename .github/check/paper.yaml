@@ -1,0 +1,35 @@
+# Checks paper/ in .github/workflows/check.yml.
+github:
+  repo: alice/site
+  allowed_authors:
+  - alice
+site:
+  title: Alice's notes
+  author: Alice
+  url: https://example.github.io/
+  description: Notes on tools and code.
+  language: en
+  navigation:
+    items:
+    - name: Home
+      url: /
+    - name: Blog
+      url: /blog/
+    - name: Ideas
+      url: /ideas/
+    - name: About
+      url: /about/
+    - name: RSS
+      url: /atom.xml
+profile:
+  avatar: ''
+  bio: I build small tools.
+theme:
+  use: ./theme
+pages:
+  tags: false
+  projects: false
+  ideas: true
+  about: true
+paths:
+  page_size: 2

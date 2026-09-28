@@ -1,0 +1,81 @@
+# Checks ledger/ in .github/workflows/check.yml.
+github:
+  repo: alice/site
+  allowed_authors:
+  - alice
+site:
+  title: Alice's notes
+  author: Alice
+  url: https://example.github.io/
+  description: Notes on tools and code.
+  language: zh-CN
+  navigation:
+    items:
+    - name: 首页
+      url: /
+    - name: 文章
+      url: /posts/
+    - name: 想法
+      url: /ideas/
+    - name: 项目
+      url: /projects/
+    - name: 标签
+      url: /tags/
+    - name: 关于
+      url: /about/
+    - name: 近况
+      url: /now/
+profile:
+  avatar: ''
+  bio: I build small tools.
+pages:
+  blog: /posts/
+  ideas: true
+  tags: true
+  projects: true
+  about: true
+  extra:
+  - path: /now/
+    template: now.html
+  - path: /projects/{slug}/
+    template: project.html
+    for_each: projects
+redirects:
+  /2020/old-post.html: /blog/hello-world/
+  /blog/hello-world/: /posts/hello-world/
+  /blog/second-post/: /posts/second-post/
+  /blog/: /posts/
+  /about.html: /about/
+theme:
+  use: ./theme
+  options:
+    accent_color: '#b65d3f'
+    show_issue_number: true
+    now_text: 正在整理开源工具、记录过程，并持续学习。
+comments:
+  enabled: true
+  repo: alice/site
+paths:
+  page_size: 2
+projects:
+- repository: alice/tool
+  title: Tool
+  summary: A small utility maintained alongside these notes.
+  featured: true
+  order: 1
+  links:
+  - name: Source
+    url: https://github.com/alice/tool
+  fallback_metadata:
+    stars: 18
+    forks: 3
+    language: Python
+- website: https://notebook.example/
+  slug: notebook
+  title: Notebook
+  summary: A standalone web project without a source repository.
+  featured: true
+  order: 2
+  links:
+  - name: Visit site
+    url: https://notebook.example/

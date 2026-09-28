@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% set page_title = t.about %}
+{% set active_destination = site.routes.about.canonical_path %}
+
+{% block content %}
+<article class="detail-page">
+  <header class="page-heading detail-heading"><p class="eyebrow">03 / {{ t.profile_about }}</p><h1>{{ page.item.title }}<span class="accent-dot">.</span></h1></header>
+  {% if page.item.is_profile %}<p class="profile-about">{{ page.item.body_html|safe }}</p>
+  {% else %}<div class="rich-content" tabindex="0" role="region" aria-label="{{ t.about_content }}">{{ page.item.body_html|safe }}</div>
+    {% if theme.show_issue_number and page.item.issue_number %}<p class="source-number">{{ t.issue }} #{{ page.item.issue_number }}</p>{% endif %}
+    {% set comments_issue_number = page.item.issue_number %}{% include "_comments.html" %}
+  {% endif %}
+</article>
+<script src="{{ '/assets/escaping/mermaid.js'|url }}" data-runtime-src="{{ '/assets/escaping/mermaid/mermaid.min.js'|url }}" data-mermaid-theme="neutral" defer></script>
+{% endblock %}

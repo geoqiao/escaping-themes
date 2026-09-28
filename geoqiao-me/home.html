@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+{% from '_macros.html' import issue_number, dotted, plain_tags, editorial_row with context %}
+{% set recent_posts = site.posts[:5] %}
+{% if recent_posts %}
+{% set latest = recent_posts[0] %}
+<section class="home-hero" aria-labelledby="home-title">
+    <div class="home-hero-inner">
+        <header class="home-intro">
+            <p class="utility-label">{{ t.home_label }}</p>
+            <h1 id="home-title">{{ site.title }}</h1>
+            {% if site.description %}<p>{{ site.description }}</p>{% endif %}
+        </header>
+
+        <article class="latest-story" aria-labelledby="latest-title">
+            <p class="latest-meta">{{ t.latest_meta|replace('{number}', issue_number(latest.issue_number))|replace('{date}', dotted(latest.created_date)) }}</p>
+            <h2 id="latest-title"><a href="{{ latest.canonical_path }}">{{ latest.title }}</a></h2>
+            <p class="latest-description">{{ latest.description }}</p>
+            {{ plain_tags(latest.tags, 'latest-tags') }}
+            <a class="latest-read" href="{{ latest.canonical_path }}">{{ t.read_this_issue }} <span aria-hidden="true">→</span></a>
+        </article>
+    </div>
+</section>
+
+<section class="recent-writing" aria-labelledby="recent-writing-title">
+    <div class="recent-writing-inner">
+        <header class="section-heading">
+            <div><p class="utility-label">{{ t.recent_label }}</p><h2 id="recent-writing-title">{{ t.recent_writing }}</h2></div>
+            <a class="section-link" href="{{ site.routes.blog.canonical_path }}">{{ t.view_all_blog }} <span aria-hidden="true">→</span></a>
+        </header>
+
+        {% if recent_posts|length > 1 %}
+        <div class="editorial-list home-recent-list" role="list">
+            {% for post in recent_posts[1:] %}
+            {{ editorial_row(post, 'h3') }}
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty-state">{{ t.more_writing_soon }}</p>
+        {% endif %}
+    </div>
+</section>
+{% else %}
+<section class="home-hero home-hero-empty" aria-labelledby="home-title">
+    <div class="home-hero-inner">
+        <header class="home-intro">
+            <p class="utility-label">{{ t.home_label }}</p>
+            <h1 id="home-title">{{ site.title }}</h1>
+            {% if site.description %}<p>{{ site.description }}</p>{% endif %}
+        </header>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

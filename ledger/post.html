@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% set page_title = page.item.title %}
+{% set active_destination = site.routes.blog.canonical_path %}
+
+{% block content %}
+<article class="detail-page">
+  <header class="page-heading detail-heading">
+    <p class="eyebrow">{{ t.blog }} / {{ page.item.created_date }}</p>
+    <h1>{{ page.item.title }}<span class="accent-dot">.</span></h1>
+    {% if page.item.description %}<p class="detail-summary">{{ page.item.description }}</p>{% endif %}
+    {% if page.item.tags %}<ul class="tag-list" aria-label="{{ t.tags }}">{% for tag in page.item.tags %}<li>{% if tag.path %}<a href="{{ tag.path }}">{{ tag.name }}</a>{% else %}<span>{{ tag.name }}</span>{% endif %}</li>{% endfor %}</ul>{% endif %}
+    {% if theme.show_issue_number and page.item.issue_number %}<p class="source-number">{{ t.issue }} #{{ page.item.issue_number }}</p>{% endif %}
+  </header>
+  <div class="rich-content" tabindex="0" role="region" aria-label="{{ t.post_content }}">{{ page.item.body_html|safe }}</div>
+  {% set comments_issue_number = page.item.issue_number %}
+  {% include "_comments.html" %}
+</article>
+{% if page.newer or page.older %}
+<nav class="neighbor-nav" aria-label="{{ t.blog }}">
+  {% if page.newer %}<a href="{{ page.newer.canonical_path }}"><small>{{ t.newer }}</small><span>← {{ page.newer.title }}</span></a>{% endif %}
+  {% if page.older %}<a href="{{ page.older.canonical_path }}"><small>{{ t.older }}</small><span>{{ page.older.title }} →</span></a>{% endif %}
+</nav>
+{% endif %}
+<script src="{{ '/assets/escaping/mermaid.js'|url }}" data-runtime-src="{{ '/assets/escaping/mermaid/mermaid.min.js'|url }}" data-mermaid-theme="neutral" defer></script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% set page_title = t.projects %}
+{% set active_destination = site.routes.projects.canonical_path %}
+
+{% block content %}
+<header class="page-heading"><p class="eyebrow">05 / {{ t.projects_kicker }}</p><h1>{{ t.projects }}<span class="accent-dot">.</span></h1><p>{{ site.description }}</p></header>
+{% if page.items %}<div class="project-grid project-grid-full">
+  {% for project in page.items %}<article class="project-card">
+    <p class="project-index">0{{ loop.index }}</p>
+    <h2>{% if project.page %}<a href="{{ project.page.canonical_path }}">{{ project.title }}</a>{% else %}<a href="{{ project.url }}">{{ project.title }}</a>{% endif %}</h2>
+    {% if project.summary %}<p>{{ project.summary }}</p>{% endif %}
+    <div class="project-facts">
+      {% if project.repository %}<span>{{ t.repository }}: {{ project.repository }}</span>{% endif %}
+      {% if project.language %}<span>{{ t.programming_language }}: {{ project.language }}</span>{% endif %}
+      {% if project.stars is not none %}<span>{{ project.stars }} {{ t.stars }}</span>{% endif %}
+    </div>
+    {% if project.links %}<ul class="project-links">{% for link in project.links %}<li><a href="{{ link.url }}">{{ link.name }} ↗</a></li>{% endfor %}</ul>{% endif %}
+  </article>{% endfor %}
+</div>
+{% else %}<p class="empty-note">{{ t.no_projects }}</p>{% endif %}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% set page_title = t.tags %}
+{% block content %}
+<section class="page-shell tags-page" aria-labelledby="tags-title">
+    <header class="page-intro">
+        <p class="utility-label">{{ t.tags_label }}</p>
+        <h1 id="tags-title">{{ t.tags }}</h1>
+        <p>{{ t.tags_caption }}</p>
+    </header>
+
+    {% if page.items %}
+    <div class="tag-matrix">
+        {% for tag in page.items %}
+        <a class="tag-cell" href="{{ tag.canonical_path }}">
+            <span>#{{ tag.name }}</span>
+            <small>{{ "%02d"|format(tag.count) }} {{ t.entry_one if tag.count == 1 else t.entry_many }}</small>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">{{ t.tags_empty }}</p>
+    {% endif %}
+</section>
+{% endblock %}

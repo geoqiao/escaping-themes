@@ -1,0 +1,40 @@
+{#- Renders a Blog post, an Idea and the About page (from an Issue or from the profile). -#}
+{% extends 'base.html' %}
+{% set item = page.item %}
+{% set page_title = t.about if page.kind == 'about' else item.title %}
+
+{% block content %}
+{% if page.kind == 'about' %}
+<article class="about-content">
+  <h1>{{ item.title if item.is_profile else t.about }}</h1>
+  {% if site.profile.avatar %}<div class="about-avatar"><img src="{{ site.profile.avatar }}" alt="{{ site.author }}" class="avatar-img"></div>{% endif %}
+  {% if site.profile.bio %}<p>{{ site.profile.bio }}</p>{% endif %}
+  {% if not item.is_profile %}<div class="post-content">{{ item.body_html|safe }}</div>{% endif %}
+  {% if site.profile.links %}<section class="about-section"><h2>{{ t.links }}</h2><ul class="contact-list">{% for link in site.profile.links %}<li><a href="{{ link.url }}">{{ link.name }}</a></li>{% endfor %}</ul></section>{% endif %}
+</article>
+{% else %}
+<article>
+    <h1>{{ item.title }}</h1>
+
+    <div class="post-meta">
+        <time datetime="{{ item.created_date }}">{{ item.created_date }}</time>
+        {% if item.tags %}
+        ·
+        {% for tag in item.tags %}
+        {% if tag.path %}<a href="{{ tag.path }}">#{{ tag.name }}</a>{% else %}<span>#{{ tag.name }}</span>{% endif %}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="post-content">
+        {{ item.body_html|safe }}
+    </div>
+</article>
+{% endif %}
+
+{% set comments_issue_number = item.issue_number %}{% include '_comments.html' %}
+
+<script src="{{ '/assets/escaping/mermaid.js'|url }}"
+        data-runtime-src="{{ '/assets/escaping/mermaid/mermaid.min.js'|url }}"
+        data-mermaid-theme="auto" defer></script>
+{% endblock %}

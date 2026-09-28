@@ -1,0 +1,54 @@
+{#- Shared pieces. Import with context: {% from '_macros.html' import … with context %} -#}
+
+{% macro issue_number(number) -%}
+{{ "%03d"|format(number) }}
+{%- endmacro %}
+
+{% macro dotted(date) -%}
+{{ date|replace('-', '.') }}
+{%- endmacro %}
+
+{#- Tags as "#name"; linked only when the tag has a page (tag.path is none otherwise). -#}
+{% macro plain_tags(tags, extra_class='') -%}
+{% if tags %}<div class="plain-tags{% if extra_class %} {{ extra_class }}{% endif %}">{% for tag in tags %}{% if tag.path %}<a href="{{ tag.path }}">#{{ tag.name }}</a>{% else %}<span>#{{ tag.name }}</span>{% endif %}{% endfor %}</div>{% endif %}
+{%- endmacro %}
+
+{#- One borderless row of the editorial index: Issue number and date, title, tags, arrow. -#}
+{% macro editorial_row(entry, heading='h2') -%}
+<article class="editorial-row" role="listitem">
+    <div class="editorial-meta"><strong>{{ issue_number(entry.issue_number) }}</strong><time datetime="{{ entry.created_date }}">{{ dotted(entry.created_date) }}</time></div>
+    <div class="editorial-copy">
+        <{{ heading }}><a href="{{ entry.canonical_path }}">{{ entry.title }}</a></{{ heading }}>
+        {{ plain_tags(entry.tags) }}
+    </div>
+    <a class="row-arrow" href="{{ entry.canonical_path }}" aria-label="{{ t.read_title|replace('{title}', entry.title) }}"><span aria-hidden="true">→</span></a>
+</article>
+{%- endmacro %}
+
+{#- The author mark: the author_mark option, else the profile avatar, else the bundled GQ mark. -#}
+{% macro author_mark_src() -%}
+{{ (theme.author_mark or site.profile.avatar or '/assets/images/author-mark.png')|url }}
+{%- endmacro %}
+
+{#- Utterances comments; only for an item backed by an Issue, only when the site enables them. -#}
+{% macro comments(number) -%}
+<div class="comments" id="comments-container"
+     data-comments-repo="{{ site.comments.repo }}"
+     data-issue-number="{{ number }}"
+     data-source-repo="{{ site.repo }}"
+     data-comments-theme="{{ theme.comments_theme }}"
+     data-comments-theme-mode="{{ theme.comments_theme_mode }}"
+     data-blog-theme-default="light"
+     data-unavailable-text="{{ t.comments_unavailable }}"
+     data-issue-link-text="{{ t.comments_view_on_github }}">
+    <p class="comments-loading" role="status">{{ t.comments_loading }}</p>
+    <noscript><p class="comments-error">{{ t.comments_noscript }}</p></noscript>
+</div>
+<script src="{{ '/assets/escaping/comments.js'|url }}" defer></script>
+{%- endmacro %}
+
+{% macro mermaid() -%}
+<script src="{{ '/assets/escaping/mermaid.js'|url }}"
+        data-runtime-src="{{ '/assets/escaping/mermaid/mermaid.min.js'|url }}"
+        data-mermaid-theme="auto" defer></script>
+{%- endmacro %}

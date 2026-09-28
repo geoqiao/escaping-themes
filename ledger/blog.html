@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% set page_title = t.blog %}
+{% set active_destination = site.routes.blog.canonical_path %}
+
+{% block content %}
+<header class="page-heading">
+  <p class="eyebrow">01 / {{ t.archive }}</p>
+  <h1>{{ t.blog }}<span class="accent-dot">.</span></h1>
+  <p>{{ site.description }}</p>
+</header>
+{% set posts = page.items %}
+{% include "_post_list.html" %}
+{% if page.pagination.total > 1 %}
+<nav class="pagination" aria-label="{{ t.blog }}">
+  {% if page.pagination.prev %}<a href="{{ page.pagination.prev.canonical_path }}">← {{ t.newer }}</a>{% endif %}
+  <span>{{ t.page_of }} {{ page.pagination.number }} {{ t.of }} {{ page.pagination.total }}</span>
+  {% if page.pagination.next %}<a href="{{ page.pagination.next.canonical_path }}">{{ t.older }} →</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}

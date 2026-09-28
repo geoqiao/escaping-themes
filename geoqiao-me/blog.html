@@ -1,0 +1,54 @@
+{#- The editorial index: renders the Blog (with its pages), Ideas and each tag archive. -#}
+{% extends 'base.html' %}
+{% set pagination = page.pagination %}
+{% if page.kind == 'tag' %}
+{% set page_title = page.tag.name %}
+{% elif page.kind == 'ideas' %}
+{% set page_title = t.ideas %}
+{% else %}
+{% set page_title = t.blog if pagination.number == 1 else t.blog ~ ' · ' ~ pagination.number %}
+{% endif %}
+{% block content %}
+{% from '_macros.html' import editorial_row with context %}
+{% if page.kind == 'tag' %}
+<section class="page-shell index-page tag-archive" aria-labelledby="tag-title">
+    <header class="page-intro">
+        <p class="utility-label">{{ t.tag_label }}</p>
+        <h1 id="tag-title">#{{ page.tag.name }}</h1>
+        <p><a class="back-link" href="{{ site.routes.tags.canonical_path }}">← {{ t.all_tags }}</a></p>
+    </header>
+{% elif page.kind == 'ideas' %}
+<section class="page-shell index-page" aria-labelledby="ideas-title">
+    <header class="page-intro">
+        <p class="utility-label">{{ t.ideas_label }}</p>
+        <h1 id="ideas-title">{{ t.ideas }}</h1>
+        <p>{{ t.ideas_caption }}</p>
+    </header>
+{% else %}
+<section class="page-shell index-page" aria-labelledby="blog-title">
+    <header class="page-intro">
+        <p class="utility-label">{{ t.blog_label }}</p>
+        <h1 id="blog-title">{{ t.blog }}</h1>
+        <p>{{ theme.blog_intro or t.blog_caption }}</p>
+    </header>
+{% endif %}
+
+    {% if page.items %}
+    <div class="editorial-list{% if page.kind == 'blog' %} archive-list{% endif %}" role="list">
+        {% for entry in page.items %}
+        {{ editorial_row(entry) }}
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">{{ t.ideas_empty if page.kind == 'ideas' else t.blog_empty }}</p>
+    {% endif %}
+
+    {% if pagination.total > 1 %}
+    <nav class="pagination" aria-label="{{ t.blog_pages }}">
+        {% if pagination.prev %}<a rel="prev" href="{{ pagination.prev.canonical_path }}">{{ t.previous }}</a>{% else %}<span class="disabled">{{ t.previous }}</span>{% endif %}
+        <span>{{ "%02d"|format(pagination.number) }} / {{ "%02d"|format(pagination.total) }}</span>
+        {% if pagination.next %}<a rel="next" href="{{ pagination.next.canonical_path }}">{{ t.next }}</a>{% else %}<span class="disabled">{{ t.next }}</span>{% endif %}
+    </nav>
+    {% endif %}
+</section>
+{% endblock %}

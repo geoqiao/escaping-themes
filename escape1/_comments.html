@@ -1,0 +1,14 @@
+{#- Utterances comments for pages backed by an Issue. Set `comments_issue_number` before including. -#}
+{% if site.comments.enabled and comments_issue_number %}
+<div class="comments" id="comments-container"
+     data-comments-repo="{{ site.comments.repo }}"
+     data-issue-number="{{ comments_issue_number }}"
+     data-source-repo="{{ site.repo }}"
+     data-comments-theme="{{ theme.comments_theme }}"
+     data-comments-theme-mode="{{ theme.comments_theme_mode }}"
+     data-blog-theme-default="light">
+    <p class="comments-loading" role="status">{{ t.comments_loading }}</p>
+    <noscript><p class="comments-error">{{ t.comments_noscript }}</p></noscript>
+</div>
+<script src="{{ '/assets/escaping/comments.js'|url }}" defer></script>
+{% endif %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% set page_title = t.tags %}
+{% set active_destination = site.routes.tags.canonical_path %}
+
+{% block content %}
+<header class="page-heading"><p class="eyebrow">04 / {{ t.tags }}</p><h1>{{ t.tags }}<span class="accent-dot">.</span></h1><p>{{ site.description }}</p></header>
+{% if page.items %}
+<ul class="tag-index">
+  {% for tag in page.items %}<li><a href="{{ tag.canonical_path }}">{{ tag.name }}</a><span>{{ "%02d"|format(tag.count) }}</span></li>{% endfor %}
+</ul>
+{% else %}<p class="empty-note">{{ t.no_tags }}</p>{% endif %}
+{% endblock %}

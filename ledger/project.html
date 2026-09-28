@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% set page_title = page.project.title %}
+{% set active_destination = site.routes.projects.canonical_path %}
+
+{% block content %}
+<article class="detail-page project-detail">
+  <header class="page-heading detail-heading"><p class="eyebrow">{{ t.project }} / {{ page.project.slug }}</p><h1>{{ page.project.title }}<span class="accent-dot">.</span></h1>
+    {% if page.project.summary %}<p class="detail-summary">{{ page.project.summary }}</p>{% endif %}
+  </header>
+  {% if page.project.image %}<figure class="project-image"><img src="{{ page.project.image }}" alt="{{ page.project.title }}"></figure>{% endif %}
+  <dl class="project-facts project-facts-detail">
+    {% if page.project.repository %}<div><dt>{{ t.repository }}</dt><dd><a href="{{ page.project.repository_url }}">{{ page.project.repository }}</a></dd></div>{% endif %}
+    {% if page.project.website %}<div><dt>{{ t.website }}</dt><dd><a href="{{ page.project.website }}">{{ page.project.website }}</a></dd></div>{% endif %}
+    {% if page.project.language %}<div><dt>{{ t.programming_language }}</dt><dd>{{ page.project.language }}</dd></div>{% endif %}
+    {% if page.project.stars is not none %}<div><dt>{{ t.stars }}</dt><dd>{{ page.project.stars }}</dd></div>{% endif %}
+    {% if page.project.forks is not none %}<div><dt>{{ t.forks }}</dt><dd>{{ page.project.forks }}</dd></div>{% endif %}
+  </dl>
+  {% if page.project.topics %}<ul class="tag-list" aria-label="{{ t.tags }}">{% for topic in page.project.topics %}<li><span>{{ topic }}</span></li>{% endfor %}</ul>{% endif %}
+  {% if page.project.links %}<ul class="project-links">{% for link in page.project.links %}<li><a href="{{ link.url }}">{{ link.name }} ↗</a></li>{% endfor %}</ul>{% endif %}
+  <p class="project-visit"><a class="button-link" href="{{ page.project.url }}">{{ t.visit_project }} ↗</a></p>
+</article>
+{% endblock %}
