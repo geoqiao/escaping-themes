@@ -18,7 +18,7 @@ jobs:
       - name: Check every Theme at the root of a host and under a path
         env:
           # The escaping version the Themes are checked with.
-          ESCAPING: git+https://github.com/geoqiao/escaping@c7a16437777d606b132ab860d516c20ac436d429 # v0.3.0
+          ESCAPING: git+https://github.com/geoqiao/escaping@046ec4511cb63c49b23ffc83b23bf8f5bd6f4140 # v0.4.0
         run: |
           set -euo pipefail
           status=0
